@@ -1,0 +1,13 @@
+<resources>
+
+    <declare-styleable name="public_GMarqueeTextView">
+        <attr name="public_marquee_textSize" format="dimension" />
+        <attr name="public_marquee_textcolor" format="color" />
+        <attr name="public_marquee_isRepeat" format="boolean" />
+        <attr name="public_marquee_marqueebackground" format="color" />
+        <attr name="public_marquee_startPoint" format="integer" />
+        <attr name="public_marquee_direction" format="integer" />
+        <attr name="public_marquee_speed" format="integer" />
+    </declare-styleable>
+
+</resources>

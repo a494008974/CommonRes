@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class CommonRecyclerViewAdapter<T> extends RecyclerView.Adapter<CommonRecyclerViewHolder>{
     protected Context mContext;
     private LayoutInflater mInflater;
-    private List<T> mDatas = new ArrayList<>();
+    private List<T> mDatas;
 
     public CommonRecyclerViewAdapter(Context context){
         mContext = context;
@@ -41,7 +41,12 @@ public abstract class CommonRecyclerViewAdapter<T> extends RecyclerView.Adapter<
     }
     
     public void setDatas(List<T> datas){
-        this.mDatas = datas;
+        if(this.mDatas != null){
+            this.mDatas.clear();
+            this.mDatas.addAll(datas);
+        }else{
+            this.mDatas = datas != null ? datas : new ArrayList<T>();
+        }
     }
     
     public void appendDatas(List<T> datas) {
