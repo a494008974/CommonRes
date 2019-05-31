@@ -56,6 +56,19 @@ public class SystemUtils {
        // }
 		return value;
 	}
+
+	public static void setProp(String key,String value){
+		//if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+		try {
+			Class c = Class.forName("android.os.SystemProperties");
+			Method m = c.getDeclaredMethod("set", String.class,String.class);
+			m.setAccessible(true);
+			m.invoke(null, key,value);
+		} catch (Throwable e) {
+
+		}
+		// }
+	}
 	
 	public static int getArmArchitecture() {
 		if (sArmArchitecture != -1)
@@ -147,8 +160,8 @@ public class SystemUtils {
 		hash &= 0x7fffffff;
 		return hash;
 	}
-/*
-	public static boolean isNetworkAvailable(Context context) {  
+
+	public static int isNetworkAvailable(Context context) {
 	    ConnectivityManager connectivity = (ConnectivityManager) context  
 	            .getSystemService(Context.CONNECTIVITY_SERVICE);  
 	    if (connectivity == null) {  
@@ -158,20 +171,23 @@ public class SystemUtils {
 	        if (info != null) { 
 	            for (int i = 0; i < info.length; i++) {  
 	                if (info[i].getState() == NetworkInfo.State.CONNECTED) {  
-	                    return true;  
+	                    return getNetworkType(info[i]);
 	                }  
 	            }  
 	        }  
 	    }  
-	    return false;  
+	    return 3;
 	}
-*/
-    /**
-     * get current data connection type name, like:Mobile/WIFI/OFFLINE
-     * 
-     * @param context
-     * @return
-     */
+
+	public static int getNetworkType(NetworkInfo info){
+		switch (info.getType()) {
+			case  ConnectivityManager.TYPE_WIFI:
+				return 1;
+			case  ConnectivityManager.TYPE_ETHERNET:
+				return 2;
+		}
+		return 3;
+	}
 
     /*
     public static String getConnectTypeName(Context context) {
@@ -188,6 +204,7 @@ public class SystemUtils {
             }
     }
     */
+
     public static String getLocalMacAddress(Context ctx) {  
     	/*
         WifiManager wifi = (WifiManager)ctx.getSystemService(Context.WIFI_SERVICE);  
@@ -452,22 +469,15 @@ public class SystemUtils {
 				ActivityManager.RunningAppProcessInfo apinfo = list.get(i);
 				String[] pkgList = apinfo.pkgList;
 				String processName = apinfo.processName;
-				if (processName != null && (
-						"system".equals(processName)
+				if (processName != null
+						&& !processName.contains("com.mylove.galaxy")
+						&& (
+								"system".equals(processName)
 								|| "com.android.phone".equals(processName)
 								|| "android.process.acore".equals(processName)
 								|| "com.yunos.tv.probe".equals(processName)
-								|| "com.ph.remote".equals(processName)
-								|| "com.linkin.provider".equals(processName)
 								||  context.getPackageName().equals(processName)
-								|| "com.voole.epg".equals(processName)
-								|| "com.rockitv.ai".equals(processName)
-								|| "com.rockitv.android".equals(processName)
-								|| "com.iflytek.xiri2.system".equals(processName)
-								|| "tv.yuyin".equals(processName)
 								|| "com.ce3g.android.v5im".equals(processName)
-								|| "com.cibn.tv".equals(processName)
-								|| "com.gitvdemobsw.video".equals(processName)
 								|| "com.android.inputmethod.latin".equals(processName)
 								|| "com.android.inputmethod.pinyin".equals(processName)
 								|| "com.tvuoo.tvconnector".equals(processName)

@@ -162,7 +162,7 @@ public class AppUtils {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            data = FileProvider.getUriForFile(ctx, "com.mylove.store.install", apk);
+            data = FileProvider.getUriForFile(ctx, ctx.getPackageName()+".install", apk);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         } else {
             data = Uri.fromFile(apk);
